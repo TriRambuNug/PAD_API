@@ -87,18 +87,4 @@ class AuthController extends Controller
             'massage' => 'Logout Berhasil'
         ]);
     }
-
-    public function me(Request $request){
-        try{
-            return response()->json([
-                'success' => true,
-                'user'    => $request->user()
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage()
-            ]);
-        }
-    }
 }
