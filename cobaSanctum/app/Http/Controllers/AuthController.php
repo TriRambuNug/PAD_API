@@ -35,9 +35,13 @@ class AuthController extends Controller
 
         //return response JSON user is created
         if($user) {
+
+            $token = $user->createToken('user_token')->plainTextToken;
+
             return response()->json([
                 'success' => true,
                 'user'    => $user,  
+                'token'   => $token
             ], 201);
         }
 
