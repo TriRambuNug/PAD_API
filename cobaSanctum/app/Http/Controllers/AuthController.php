@@ -91,4 +91,22 @@ class AuthController extends Controller
             'massage' => 'Logout Berhasil'
         ]);
     }
+
+    public function defineUser(Request $request){
+        try{
+            $user = $request->user();
+            return response()->json([
+                'success' => true,
+                'data'    => $user,
+                'message' => 'Data user berhasil diambil'
+            ]);
+        }
+        catch(\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message' => 'Data user gagal diambil'
+            ]);
+        }
+       
+    }
 }

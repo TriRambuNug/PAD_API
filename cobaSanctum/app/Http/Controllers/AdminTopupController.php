@@ -16,9 +16,9 @@ class AdminTopupController extends Controller
     {
         // Validasi data dari request
         $validatedData = $request->validate([
-            'admin_id' => 'required|exists:users,id',
-            'transaction_id' => 'required|exists:transactions,id',
-            'pocket_id' => 'required|exists:pockets,id',
+            'admin_id' => 'required',
+            'transaction_id' => 'required',
+            'pocket_id' => 'required',
             'amount' => 'required|numeric',
             'proff' => 'nullable|string|max:191',
         ]);
@@ -40,19 +40,10 @@ class AdminTopupController extends Controller
                 throw new \Exception('Pocket not found');
             }
 
-            // Mengambil dan mengupdate gross_amount Transaction
-            $transaction = Transaction::find($validatedData['transaction_id']);
-            if ($transaction) {
-                $transaction->gross_amount += $validatedData['amount'];
-                $transaction->save();
-            } else {
-                Log::error('Transaction not found');
-                throw new \Exception('Transaction not found');
-            }
-
+           
             // Membuat catatan transaksi baru (TransactionRecord)
             TransactionRecord::create([
-                'user_id' => $validatedData['admin_id'], // Asumsi ID admin digunakan sebagai ID user
+                'user_id' => $validatedData['admin_id'], 
                 'transaction_id' => $validatedData['transaction_id'],
                 'pocket_id' => $validatedData['pocket_id'],
                 'amount' => $validatedData['amount'],
@@ -63,5 +54,30 @@ class AdminTopupController extends Controller
 
         // Memberikan respons dengan data adminTopup dan kode status 201 (Created)
         return response()->json($adminTopup, 201);
+
+        $db = DB::connection()->getPdo();
+        dd($db);
+    }
+
+    public function index()
+    {
+       try{
+            $adminTopup = AdminTopUp::all();
+            return response()->json([
+                'success' => true,
+                'message' => 'Data Topup berhasil diambil',
+                'data' => $adminTopup
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error fetching all topup: ', ['error' => $e->getMessage()]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Topup gagal diambil',
+                'data' => []
+            ], 500);
+        
+       }
     }
 }
+
+

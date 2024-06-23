@@ -13,7 +13,7 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::post('/user', [AuthController::class, 'me'])->middleware('auth:sanctum');
+Route::get('/user-data', [AuthController::class, 'defineUser'])->middleware('auth:sanctum');
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
@@ -51,6 +51,7 @@ Route::middleware('auth:sanctum')->group(function () {
        
         //topup
         Route::post('/admin-topup',[AdminTopupController::class, 'store']);
+        Route::get('/alltopup-history', [AdminTopupController::class, 'index']);
 
     }); 
 });
