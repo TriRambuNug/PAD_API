@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminTopupController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PatnerController;
 use App\Http\Controllers\PocketController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,14 @@ Route::put('/update-user/{id}', [UserController::class, 'updateUser']);
  Route::get('/pocket/{id}', [PocketController::class, 'show']);
  Route::put('/update-pocket/{id}', [PocketController::class, 'update']);
  Route::delete('/delete-pocket/{id}', [PocketController::class, 'destroy']);
+
+ //transaction
+ Route::post('/create-transaction', [TransactionController::class, 'store']);
+ Route::get('/alltransaction', [TransactionController::class, 'index']);
+ Route::get('/transaction/{id}', [TransactionController::class, 'show']);
+ Route::put('/update-transaction/{id}', [TransactionController::class, 'update']);
+ Route::delete('/delete-transaction/{id}', [TransactionController::class, 'destroy']);
+
 
 
 Route::middleware('auth:sanctum')->group(function () {
