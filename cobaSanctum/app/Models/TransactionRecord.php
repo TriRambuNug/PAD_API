@@ -14,6 +14,10 @@ class TransactionRecord extends Model
     protected $table = 'transaction_records';
     protected $guarded = [];
 
+
+    protected $fillable = [
+        'user_id', 'transaction_id', 'pocket_id', 'amount', 'type', 'category', 'deleted_at'
+    ];
     /**
      * Relation table
      *

@@ -14,6 +14,11 @@ class Pocket extends Model
     protected $table = 'pockets';
     protected $guarded = [];
 
+     protected $fillable = [
+        'pocket_code', 'name', 'picture', 'balance', 'limit', 'target', 'ishide', 'color', 'status', 'type', 'deleted_at'
+    ];
+
+
     /**
      * Relation table
      *

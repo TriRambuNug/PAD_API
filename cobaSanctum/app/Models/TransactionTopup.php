@@ -11,6 +11,10 @@ class TransactionTopUp extends Model
     protected $table = 'transaction_topups';
     protected $guarded = [];
 
+    protected $fillable = [
+        'user_id', 'pocket_id', 'level'
+    ];
+
     /**
      * Relation table
      *

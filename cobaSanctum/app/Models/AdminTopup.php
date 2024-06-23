@@ -15,6 +15,12 @@ class AdminTopUp extends Model
     protected $table = 'admin_topups';
     protected $guarded = [];
 
+
+    protected $fillable = [
+        'admin_id', 'transaction_id', 'pocket_id', 'amount', 'proff', 'deleted_at'
+    ];
+
+
     /**
      * Relation table
      *

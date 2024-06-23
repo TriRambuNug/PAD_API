@@ -14,6 +14,10 @@ class Transaction extends Model
     protected $table = 'transactions';
     protected $guarded = [];
 
+    protected $fillable = [
+        'transaction_code', 'order_code', 'name', 'location', 'description', 'status', 'category', 'subtotal', 'royalty_fee', 'royalty_commitment', 'admin_fee', 'gross_amount', 'methode', 'deleted_at'
+    ];
+
     /**
      * Relation table
      *

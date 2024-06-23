@@ -14,6 +14,20 @@ class Patners extends Model
     protected $table = 'patners';
     protected $guarded = [];
 
+    protected $fillable = [
+        'patner_code',
+        'name',
+        'phone',
+        'picture',
+        'address',
+        'city',
+        'province',
+        'email',
+        'type',
+        'status'
+    ];
+    
+
     /**
      * Relation table
      *
