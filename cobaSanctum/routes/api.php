@@ -19,11 +19,11 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanc
 Route::put('/update-user/{id}', [UserController::class, 'updateUser']);
 
  //pocket
- Route::post('/create-pocket', [PocketController::class, 'createPocket']);
- Route::get('/allpocket', [PocketController::class, 'getAllPocket']);
- Route::get('/pocket/{id}', [PocketController::class, 'getPocketById']);
- Route::put('/update-pocket/{id}', [PocketController::class, 'updatePocket']);
- Route::delete('/delete-pocket/{id}', [PocketController::class, 'deletePocket']);
+ Route::post('/create-pocket', [PocketController::class, 'store']);
+ Route::get('/allpocket', [PocketController::class, 'index']);
+ Route::get('/pocket/{id}', [PocketController::class, 'show']);
+ Route::put('/update-pocket/{id}', [PocketController::class, 'update']);
+ Route::delete('/delete-pocket/{id}', [PocketController::class, 'destroy']);
 
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -37,6 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/allpatner', [PatnerController::class, 'getAllPatner']);
         Route::get('/patner/{id}', [PatnerController::class, 'getPatnerById']);
         Route::put('/update-patner/{id}', [PatnerController::class, 'updatePatner']);
+        Route::delete('/delete-patner/{id}', [PatnerController::class, 'deletePatner']);
 
        
         //topup
