@@ -18,6 +18,14 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::put('/update-user/{id}', [UserController::class, 'updateUser']);
 
+ //pocket
+ Route::post('/create-pocket', [PocketController::class, 'createPocket']);
+ Route::get('/allpocket', [PocketController::class, 'getAllPocket']);
+ Route::get('/pocket/{id}', [PocketController::class, 'getPocketById']);
+ Route::put('/update-pocket/{id}', [PocketController::class, 'updatePocket']);
+ Route::delete('/delete-pocket/{id}', [PocketController::class, 'deletePocket']);
+
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('role:admin')->group(function () {
         Route::get('/alluser', [UserController::class, 'getAllUser']);
@@ -30,13 +38,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/patner/{id}', [PatnerController::class, 'getPatnerById']);
         Route::put('/update-patner/{id}', [PatnerController::class, 'updatePatner']);
 
-        //pocket
-        Route::post('/create-pocket', [PocketController::class, 'createPocket']);
-        Route::get('/allpocket', [PocketController::class, 'getAllPocket']);
-        Route::get('/pocket/{id}', [PocketController::class, 'getPocketById']);
-        Route::put('/update-pocket/{id}', [PocketController::class, 'updatePocket']);
-        Route::delete('/delete-pocket/{id}', [PocketController::class, 'deletePocket']);
-
+       
         //topup
         Route::post('/admin-topup',[AdminTopupController::class, 'store']);
 
