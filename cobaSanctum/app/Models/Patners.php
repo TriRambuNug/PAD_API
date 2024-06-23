@@ -6,31 +6,31 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class TransactionRecord extends Model
+class Patners extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    
-    protected $table = 'transaction_records';
+
+    protected $table = 'patners';
     protected $guarded = [];
 
     /**
      * Relation table
      *
      */
-    public function user()
+    public function cardPatner()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->hasMany(CardPatner::class, 'patner_id');
     }
 
-    public function transaction()
+    public function member()
     {
-        return $this->belongsTo(Transaction::class, 'transaction_id');
+        return $this->hasMany(Member::class, 'patner_id');
     }
 
-    public function pocket()
+    public function pocketPatner()
     {
-        return $this->belongsTo(Pocket::class, 'pocket_id');
+        return $this->hasMany(PocketPatner::class, 'patner_id');
     }
 
      

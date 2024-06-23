@@ -6,30 +6,51 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Patners extends Model
+class Pocket extends Model
 {
     use HasFactory;
     use SoftDeletes;
-
-    protected $table = 'patners';
+    
+    protected $table = 'pockets';
     protected $guarded = [];
 
     /**
      * Relation table
      *
      */
-    public function cardPatner()
+    public function adminTopUp()
     {
-        return $this->hasMany(CardPatner::class, 'patner_id');
+        return $this->hasMany(AdminTopUp::class, 'pocket_id');
     }
 
-    public function member()
+    public function card()
     {
-        return $this->hasMany(Member::class, 'patner_id');
+        return $this->hasMany(Card::class, 'pocket_id');
     }
 
     public function pocketPatner()
     {
-        return $this->hasMany(PocketPatner::class, 'patner_id');
+        return $this->hasMany(PocketPatner::class, 'pocket_id');
     }
+
+    public function pocketUser()
+    {
+        return $this->hasMany(PocketUser::class, 'pocket_id');
+    }
+
+    public function transactionRecord()
+    {
+        return $this->hasMany(TransactionRecord::class, 'pocket_id');
+    }
+
+    public function withdrawal()
+    {
+        return $this->hasMany(Withdrawal::class, 'pocket_id');
+    }
+
+     
+    /**
+     * Scope models
+     *
+     */
 }
