@@ -13,29 +13,32 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::get('/user-data', [AuthController::class, 'defineUser'])->middleware('auth:sanctum');
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
-Route::put('/update-user/{id}', [UserController::class, 'updateUser']);
-
- //pocket
- Route::post('/create-pocket', [PocketController::class, 'store']);
- Route::get('/allpocket', [PocketController::class, 'index']);
- Route::get('/pocket/{id}', [PocketController::class, 'show']);
- Route::put('/update-pocket/{id}', [PocketController::class, 'update']);
- Route::delete('/delete-pocket/{id}', [PocketController::class, 'destroy']);
-
- //transaction
- Route::post('/create-transaction', [TransactionController::class, 'store']);
- Route::get('/alltransaction', [TransactionController::class, 'index']);
- Route::get('/transaction/{id}', [TransactionController::class, 'show']);
- Route::put('/update-transaction/{id}', [TransactionController::class, 'update']);
- Route::delete('/delete-transaction/{id}', [TransactionController::class, 'destroy']);
-
-
 
 Route::middleware('auth:sanctum')->group(function () {
+
+
+    Route::get('/user-data', [AuthController::class, 'defineUser']);
+    
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::put('/update-user/{id}', [UserController::class, 'updateUser']);
+    Route::put('/update-password/{id}', [UserController::class, 'changePassword']);
+    
+     //pocket
+     Route::post('/create-pocket', [PocketController::class, 'store']);
+     Route::get('/allpocket', [PocketController::class, 'index']);
+     Route::get('/pocket/{id}', [PocketController::class, 'show']);
+     Route::put('/update-pocket/{id}', [PocketController::class, 'update']);
+     Route::delete('/delete-pocket/{id}', [PocketController::class, 'destroy']);
+    
+     //transaction
+     Route::post('/create-transaction', [TransactionController::class, 'store']);
+     Route::get('/alltransaction', [TransactionController::class, 'index']);
+     Route::get('/transaction/{id}', [TransactionController::class, 'show']);
+     Route::put('/update-transaction/{id}', [TransactionController::class, 'update']);
+     Route::delete('/delete-transaction/{id}', [TransactionController::class, 'destroy']);
+
     Route::middleware('role:admin')->group(function () {
         Route::get('/alluser', [UserController::class, 'getAllUser']);
         Route::get('/user/{id}', [UserController::class, 'getUserById']);

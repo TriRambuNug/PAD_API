@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
@@ -167,6 +168,68 @@ class UserController extends Controller
                 'success' => false,
                 'message' => 'Data User tidak ditemukan',
                 'data' => []
+            ], 500);
+        }
+    }
+
+    public function changePassword(Request $request, $id)
+    {
+        // Logging request data for debugging
+        Log::info('Password change request data: ', $request->all());
+
+        // Validate incoming request
+        $validator = Validator::make($request->all(), [
+            'current_password' => 'required|string',
+            'new_password' => 'required|string|min:6|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            Log::warning('Validation failed: ', $validator->errors()->toArray());
+            return response()->json([
+                'success' => false,
+                'message' => 'Validasi gagal',
+                'errors' => $validator->errors()
+            ], 400);
+        }
+
+        try {
+            // Find the user by ID
+            $user = User::find($id);
+
+            if (!$user) {
+                Log::warning('User not found: ', ['id' => $id]);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Data pengguna tidak ditemukan'
+                ], 404);
+            }
+
+            // Check if current password matches
+            if (!Hash::check($request->current_password, $user->password)) {
+                Log::warning('Current password does not match: ', ['id' => $id]);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Kata sandi saat ini tidak cocok'
+                ], 400);
+            }
+
+            // Update password
+            $user->password = Hash::make($request->new_password);
+            $user->save();
+
+            Log::info('User password updated: ', ['id' => $id]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Kata sandi berhasil diubah',
+                'data' => $user
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error changing password: ', ['error' => $e->getMessage()]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Kata sandi gagal diubah',
+                'errors' => $e->getMessage()
             ], 500);
         }
     }
