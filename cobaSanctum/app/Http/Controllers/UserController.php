@@ -176,13 +176,13 @@ class UserController extends Controller
     {
         // Logging request data for debugging
         Log::info('Password change request data: ', $request->all());
-
+    
         // Validate incoming request
         $validator = Validator::make($request->all(), [
             'current_password' => 'required|string',
             'new_password' => 'required|string|min:6|confirmed',
         ]);
-
+    
         if ($validator->fails()) {
             Log::warning('Validation failed: ', $validator->errors()->toArray());
             return response()->json([
@@ -191,11 +191,11 @@ class UserController extends Controller
                 'errors' => $validator->errors()
             ], 400);
         }
-
+    
         try {
             // Find the user by ID
             $user = User::find($id);
-
+    
             if (!$user) {
                 Log::warning('User not found: ', ['id' => $id]);
                 return response()->json([
@@ -203,7 +203,7 @@ class UserController extends Controller
                     'message' => 'Data pengguna tidak ditemukan'
                 ], 404);
             }
-
+    
             // Check if current password matches
             if (!Hash::check($request->current_password, $user->password)) {
                 Log::warning('Current password does not match: ', ['id' => $id]);
@@ -212,13 +212,13 @@ class UserController extends Controller
                     'message' => 'Kata sandi saat ini tidak cocok'
                 ], 400);
             }
-
+    
             // Update password
             $user->password = Hash::make($request->new_password);
             $user->save();
-
+    
             Log::info('User password updated: ', ['id' => $id]);
-
+    
             return response()->json([
                 'success' => true,
                 'message' => 'Kata sandi berhasil diubah',
@@ -233,4 +233,5 @@ class UserController extends Controller
             ], 500);
         }
     }
+    
 }
